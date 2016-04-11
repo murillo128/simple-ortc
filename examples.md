@@ -7,45 +7,60 @@ var RTCRtpStream = require("stream.js");
 var audio,video;
 //ORTC transport
 var transport;
-```javascript
+```
 
-
+Single codec single transport, autoassign values
 ```javascript
-//Single codec single transport, autoassign ssrc, pt
+//Create h264 encoder
 var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 
+//Set media stream source
 encoder.setMediaStream(video);
 
+//Create RTP strem and autoassign ssrc
 var stream = new RTCRtpStream();
 console.log(stream.ssrc);
+console.log(stream.rtx.ssrc);
+console.log(stream.fec.ssrc);
 
-stream.attach(encoder.encodings[0]);
+//Send all encodings to the stream and autoasign payloads
+encoder.send(stream);
 console.log(stream.payloads[0].pt);
+console.log(stream.payloads[0].rtx.pt);
 
+//Send using transport
 stream.send(transport);
 ``` 
 
-```javascript
-//Single codec single transport
-var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 
+Single codec single transport
+```javascript
+//Create h264 encoder
+var encoder = RTCEncoderFactory.create(RTCCodec.h264);
+//Set media stream source
 encoder.setMediaStream(video);
 
+//Create RTP strem and autoassign ssrc
 var stream = new RTCRtpStream();
 
 //encoder must have only one encoding or it will throw an exception
-stream.attach(encoder,{pt: 100, rtx: {pt: 101}});
+encoder.encoodigns[0].send(stream,{pt: 100, rtx: {pt: 101}});
 
+//Send using transport
 stream.send(transport);
 ``` 
 
+Multiple codecs, single transport
 ````javascript
-//Multiple codecs, single transport
+//Create h264 and vp8 encoder
 var encoder1 = RTCEncoderFactory.create(RTCCodec.h264);
 var encoder2 = RTCEncoderFactory.create(RTCCodec.vp8);
 
-encoder.setMediaStream(video);
+//Set same source for both
+encoder1.setMediaStream(video);
+encoder2.setMediaStream(video);
 
+//Create stream
 var stream = new RTCRtpStream();
 
 stream.attach(encoder1,{pt: 100, rtx: {pt: 101}});

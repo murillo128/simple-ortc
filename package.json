@@ -1,0 +1,27 @@
+{
+  "name": "simple-ortc",
+  "version": "1.0.0",
+  "description": "Simplified wrapped API for ORTC RTCRtpSender and RTCRtpReceiver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murillo128/simple-ortc.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/murillo128/simple-ortc/issues"
+  },
+  "homepage": "https://github.com/murillo128/simple-ortc#readme",
+  "dependencies": {
+    "asap": "^2.0.3",
+    "debug": "^2.2.0",
+    "lfsr": "0.0.3"
+  },
+  "devDependencies": {
+    "tape": "^4.5.1"
+  }
+}
