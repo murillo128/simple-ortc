@@ -1,7 +1,7 @@
 ```javascript
 var RTCCodecs = require("codecs.js");
 var RTCEncoderFactory = require("encoder.js");
-var RTCRtpStream = require("stream.js");
+var RTCRtpSenderStream = require("stream.js");
 
 //Media streams from gUM
 var audio,video;
@@ -18,7 +18,7 @@ var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 encoder.setMediaStream(video);
 
 //Create RTP strem and autoassign ssrc
-var stream = new RTCRtpStream();
+var stream = new RTCRtpSenderStream();
 console.log(stream.ssrc);
 console.log(stream.rtx.ssrc);
 console.log(stream.fec.ssrc);
@@ -41,7 +41,7 @@ var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 encoder.setMediaStream(video);
 
 //Create RTP strem and autoassign ssrc
-var stream = new RTCRtpStream();
+var stream = new RTCRtpSenderStream();
 
 //encoder must have only one encoding or it will throw an exception
 encoder.encoodigns[0].send(stream,{pt: 100, rtx: {pt: 101}});
@@ -61,7 +61,7 @@ encoder1.setMediaStream(video);
 encoder2.setMediaStream(video);
 
 //Create stream
-var stream = new RTCRtpStream();
+var stream = new RTCRtpSenderStream();
 
 stream.attach(encoder1,{pt: 100, rtx: {pt: 101}});
 stream.attach(encoder2,{pt: 102, rtx: {pt: 103}});
@@ -77,7 +77,7 @@ var encoder2 = RTCEncoderFactory.create(RTCCodec.vp8);
 
 encoder.setMediaStream(video);
 
-var stream = new RTCRtpStream();
+var stream = new RTCRtpSenderStream();
 
 stream.attach(encoder1,{pt: 100, rtx: {pt: 101}});
 stream.attach(encoder2,{pt: 102, rtx: {pt: 103}});

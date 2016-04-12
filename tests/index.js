@@ -8,7 +8,7 @@ global.RTCRtpSender = require("./ortc/rtcrtpsender.js");
 //Load SimpleORTC objects into global
 global.RTCCodec = require('../lib/codecs.js');
 global.RTCEncoderFactory = require('../lib/encoder.js');
-global.RTCRtpStream = require('../lib/stream.js');
+global.RTCRtpSenderStream = require('../lib/stream.js');
 
 //Dummy objects used for tests
 //Media streams from gUM
@@ -28,7 +28,7 @@ test('Observe simple object', function (t) {
 	encoder.track = video;
 
 	//Create RTP strem and autoassign ssrc
-	var stream = new RTCRtpStream();
+	var stream = new RTCRtpSenderStream();
 
 	//Send all encodings to the stream and autoasign payloads
 	encoder.send(stream)
@@ -65,7 +65,7 @@ test('Observe simple object', function (t) {
 	encoder.track = video;
 
 	//Create RTP strem and autoassign ssrc
-	var stream = new RTCRtpStream();
+	var stream = new RTCRtpSenderStream();
 
 	//Send all encodings to the stream and autoasign payloads
 	Promise.all([
