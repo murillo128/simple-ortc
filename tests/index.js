@@ -17,12 +17,13 @@ var video = {video:true};
 //ORTC transport
 var transport = {transport:true};
 
-test('Observe simple object', function (t) {
+
+test('Simple test secuential then', function (t) {
 
 	t.plan(4);
 
 	//Create h264 encoder
-	var encoder = RTCEncoderFactory.create(RTCCodec.h264,{});
+	var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 
 	//Set media stream source
 	encoder.track = video;
@@ -36,6 +37,48 @@ test('Observe simple object', function (t) {
 			//debug(payload);
 			t.equals(payload.stream,stream);
 			t.equals(payload.track,video);
+			//Send using transport
+			return stream.attach(transport);
+		})
+		.then(function(payload){
+			debug("attached %o",payload);
+			t.equal(payload[0].transport,transport);
+			//Stop sending
+			return stream.dettach();
+		})
+		.then(function(payload){
+			debug("dettached %o",payload);
+			t.equal(payload.transport,undefined);
+		})
+		.catch(function(error){
+			debug("Error: %o",error);
+			t.fail(error);
+		});
+});
+
+test('Simple test mix secuential then', function (t) {
+
+	t.plan(4);
+
+	//Create h264 encoder
+	var encoder = RTCEncoderFactory.create(RTCCodec.h264);
+
+	//Set media stream source
+	encoder.track = video;
+
+	//Create RTP strem and autoassign ssrc
+	var stream = new RTCRtpSenderStream();
+
+	//Send all encodings to the stream and autoasign payloads
+	encoder.send(stream)
+		.then(function(payload){
+			//debug(payload);
+			t.equals(payload.stream,stream);
+			t.equals(payload.track,video);
+		})
+		.catch(function(error){
+			debug("Error: %o",error);
+			t.fail(error);
 		});
 
 	//Send using transport
@@ -51,15 +94,16 @@ test('Observe simple object', function (t) {
 		})
 		.catch(function(error){
 			debug("Error: %o",error);
+			t.fail(error);
 		});
 });
 
-test('Observe simple object', function (t) {
+test('Simple test parallel then', function (t) {
 
 	t.plan(4);
 
 	//Create h264 encoder
-	var encoder = RTCEncoderFactory.create(RTCCodec.h264,{});
+	var encoder = RTCEncoderFactory.create(RTCCodec.h264);
 
 	//Set media stream source
 	encoder.track = video;
@@ -85,6 +129,7 @@ test('Observe simple object', function (t) {
 	})
 	.catch(function(error){
 		debug("Error: %o",error);
+		t.fail(error);
 	});
 		
 		
