@@ -44,7 +44,7 @@ encoder.track = video;
 var stream = new RTCRtpSenderStream();
 
 //encoder must have only one encoding or it will throw an exception
-encoder.encoodigns[0].send(stream,{pt: 100, rtx: {pt: 101}});
+encoder.send(stream,{pt: 100, rtx: {pt: 101}});
 
 //Send using transport
 stream.attach(transport);
